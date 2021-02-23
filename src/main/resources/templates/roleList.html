@@ -12,23 +12,11 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <shiro:hasPermission name="user:insert">
+        <shiro:hasPermission name="role:insert">
             <button class="layui-btn layui-btn-normal layui-btn-sm layui-btn-radius" lay-event="isAdd">添加</button>
         </shiro:hasPermission>
         <button class="layui-btn layui-btn-normal layui-btn-sm layui-btn-radius" lay-event="isRe">刷新</button>
     </div>
-</script>
-
-<script type="text/html" id="barDemo">
-    <shiro:hasPermission name="user:update">
-        <a class="layui-btn layui-btn-normal layui-btn-xs  layui-btn-radius" lay-event="update">修改</a>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="user:update">
-        <a class="layui-btn layui-btn-normal layui-btn-xs layui-btn-radius" lay-event="edit">授权角色</a>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="user:delete">
-        <a class="layui-btn layui-btn-danger layui-btn-xs layui-btn-radius" lay-event="del">删除</a>
-    </shiro:hasPermission>
 </script>
 
 <script type="text/javascript">
@@ -37,7 +25,7 @@
             ,form = layui.form;
         table.render({
             elem: '#test'
-            ,url:'/user/list1'
+            ,url:'/role/list1'
             ,limits: [10,20,50,100]
             ,limit: 10 //每页默认显示的数量
             ,page:true
@@ -47,21 +35,16 @@
                 ,layEvent: 'LAYTABLE_TIPS'
                 ,icon: 'layui-icon-tips'
             }]
-            ,title: '用户表'
+            ,title: '角色表'
             ,cols: [
                 [
                 {type: 'checkbox', fixed: 'left'}
                 ,{field:'id', title:'ID', align: 'center', width:50}
-                ,{field:'username', title:'用户名', align: 'center' }
-                ,{field:'password', title:'密码', align: 'center' }
-                ,{field:'email', title:'邮箱', align: 'center' }
-                ,{field:'phone', title:'电话', align: 'center' }
-                ,{field:'sex', title:'性别', align: 'center',templet:function(d){if(d.sex=='男') return "<span >男</span>"; if(d.sex=='女') return "<span style='color: #F581B1;'>女</span>"; } }
-                ,{field:'age', title:'年龄' , align: 'center'}
+                ,{field:'name', title:'角色名称', align: 'center' }
+                ,{field:'description', title:'角色描述', align: 'center' }
                 ,{field:'status', title:'状态', align: 'center',templet:function(d){if(d.status=='1') return "<span >可用</span>"; if(d.status=='2') return "<span style='color: #ff0000;'>不可用</span>"; }}
                 ,{field:'createtime', title:'创建时间' ,templet: '<div>{{layui.util.toDateString(d.createtime, "yyyy-MM-dd HH:mm:ss")}}</div>'}
                 ,{field:'updatetime', title:'更新时间' ,templet: '<div>{{layui.util.toDateString(d.updatetime, "yyyy-MM-dd HH:mm:ss")}}</div>'}
-                ,{field:'lastlogintime', title:'最后登录时间' ,templet: '<div>{{layui.util.toDateString(d.lastlogintime, "yyyy-MM-dd HH:mm:ss")}}</div>'}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:200}
             ]
             ]
@@ -92,7 +75,7 @@
                 case 'isAdd':
                     layer.open({
                         type : 2,
-                        tile : '添加用户',
+                        tile : '添加角色',
                         area : ['500px', '500px'],
                         content : '/user/add'
                     });
@@ -105,7 +88,7 @@
             var data = obj.data;
             //console.log(obj)
             if(obj.event === 'del'){
-                layer.confirm('真的删除此用户么？', function(index){
+                layer.confirm('真的删除此角色么？', function(index){
                     $.ajax({
                         url:"/user/delete",
                         data:{id:data.id},
@@ -128,7 +111,7 @@
             }else if(obj.event == 'update'){
                 layer.open({
                     type : 2,
-                    tile : '修改用户信息',
+                    tile : '修改角色信息',
                     area : ['500px', '500px'],
                     content : '/user/edit?id='+data.id
                 });
