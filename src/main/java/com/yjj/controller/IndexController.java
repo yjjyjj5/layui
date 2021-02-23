@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 /**
+ * 页面跳转的
  * @author
  * @date: 2021/2/22 16:36
  */
@@ -50,7 +51,7 @@ public class IndexController {
      */
     @RequestMapping("user/list")
     @RequiresPermissions("user:select")
-    public String list(){
+    public String userList(){
         System.out.println("IndexController.list");
         return "userList";
     }
@@ -80,5 +81,16 @@ public class IndexController {
         System.out.println(id);
         model.addAttribute("id",id);
         return "userEdit";
+    }
+
+    /**
+     * 进入用户页面
+     * @return
+     */
+    @RequestMapping("role/list")
+    @RequiresPermissions("role:select")
+    public String roleList(){
+        System.out.println("IndexController.list");
+        return "roleList";
     }
 }
