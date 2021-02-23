@@ -25,4 +25,11 @@ public interface RoleService {
      * @return
      */
     public List<Role> listPage(Integer page,Integer limit);
+
+    /**
+     * 添加角色
+     * @param role
+     * @return
+     */
+    public int insert(Role role);
 }

@@ -18,4 +18,9 @@
         from role
         limit #{page} , #{limit}
     </select>
+
+    <insert id="insert">
+        insert into role(name,description,status,createtime,updatetime)
+        values(#{name},#{description},#{status},now(),now() )
+    </insert>
 </mapper>

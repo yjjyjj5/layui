@@ -93,4 +93,14 @@ public class IndexController {
         System.out.println("IndexController.roleList");
         return "roleList";
     }
+    /**
+     * 进入添加角色页面
+     * @return
+     */
+    @RequestMapping("role/add")
+    @RequiresPermissions("role:insert")
+    public String roleInsert(){
+        System.out.println("IndexController.roleInsert");
+        return "roleInsert";
+    }
 }

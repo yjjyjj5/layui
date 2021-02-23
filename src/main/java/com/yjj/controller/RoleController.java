@@ -1,5 +1,6 @@
 package com.yjj.controller;
 
+import com.yjj.entity.Role;
 import com.yjj.service.RoleService;
 import com.yjj.service.UserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -44,5 +45,14 @@ public class RoleController {
         map.put("msg","success");
         map.put("count",roleService.list().size());
         return map;
+    }
+
+    @RequestMapping(value = "insert",method = RequestMethod.POST)
+    @RequiresPermissions("role:insert")
+    @ResponseBody
+    public String insert(Role role){
+        System.out.println("RoleController.insert");
+        roleService.insert(role);
+        return "success";
     }
 }

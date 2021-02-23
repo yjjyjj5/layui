@@ -34,5 +34,10 @@ public class RoleServiceImpl implements RoleService {
         return roleMapper.listPage(page,limit);
     }
 
+    @Override
+    public int insert(Role role) {
+        return roleMapper.insert(role);
+    }
+
 
 }
