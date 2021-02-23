@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yjj.mapper.PermissionMapper">
+
+    <select id="queryMenuPermissionByRoleId" resultType="com.yjj.entity.Permission">
+        select distinct p.* from permission p,rolepermission rp
+        where p.id=rp.permissionid and rp.roleid in
+        <foreach collection="list" item="r" open="(" close=")" separator=",">
+            #{r.id}
+        </foreach>
+        and p.type in(0,1) and p.`status`=1
+        order by p.parentid asc,p.ordernum asc
+    </select>
+
+    <select id="queryOperationPermissionByRoleId" resultType="com.yjj.entity.Permission">
+        select distinct p.* from permission p,rolepermission rp
+        where p.id=rp.permissionid and rp.roleid in
+        <foreach collection="list" item="r" open="(" close=")" separator=",">
+            #{r.id}
+        </foreach>
+        and p.type=2 and p.`status`=1
+    </select>
+
+    <select id="queryOwenPermissionByRoleId" parameterType="int" resultType="com.yjj.entity.Permission">
+        select distinct p.* from permission p,rolepermission rp
+        where p.id=rp.permissionid and rp.roleid = #{rid}
+        order by p.parentid asc,p.ordernum asc
+    </select>
+
+    <delete id="deletePermissionByRoleId" parameterType="int">
+        delete from rolepermission where roleid=#{rid}
+    </delete>
+
+    <!--
+    map:
+    rid=2
+    perArr:[1,2,3,4]
+    -->
+    <insert id="batchInsertPermission" parameterType="map">
+        insert into rolepermission values
+        <foreach collection="perArr" item="pid" separator=",">
+            (null,#{rid},#{pid})
+        </foreach>
+    </insert>
+</mapper>

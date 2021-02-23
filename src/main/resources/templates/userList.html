@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/layui/layui.all.js}"></script>
+    <script th:src="@{/js/jquery-3.2.1.js}"></script>
+</head>
+<body>
+<table class="layui-hide" id="test" lay-filter="test" ></table>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <shiro:hasPermission name="user:insert">
+            <button class="layui-btn layui-btn-normal layui-btn-sm layui-btn-radius" lay-event="isAdd">添加</button>
+        </shiro:hasPermission>
+        <button class="layui-btn layui-btn-normal layui-btn-sm layui-btn-radius" lay-event="isRe">刷新</button>
+    </div>
+</script>
+
+<script type="text/html" id="barDemo">
+    <shiro:hasPermission name="user:update">
+        <a class="layui-btn layui-btn-normal layui-btn-xs  layui-btn-radius" lay-event="update">修改</a>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="user:update">
+        <a class="layui-btn layui-btn-normal layui-btn-xs layui-btn-radius" lay-event="edit">授权角色</a>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="user:delete">
+        <a class="layui-btn layui-btn-danger layui-btn-xs layui-btn-radius" lay-event="del">删除</a>
+    </shiro:hasPermission>
+</script>
+
+<script type="text/javascript">
+    layui.use('table', function(){
+        var table = layui.table
+            ,form = layui.form;
+        table.render({
+            elem: '#test'
+            ,url:'/user/list1'
+            ,limits: [10,20,50,100]
+            ,limit: 10 //每页默认显示的数量
+            ,page:true
+            ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            ,defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                title: '提示'
+                ,layEvent: 'LAYTABLE_TIPS'
+                ,icon: 'layui-icon-tips'
+            }]
+            ,title: '用户表'
+            ,cols: [
+                [
+                {type: 'checkbox', fixed: 'left'}
+                ,{field:'id', title:'ID', align: 'center', width:50}
+                ,{field:'username', title:'用户名', align: 'center' }
+                ,{field:'password', title:'密码', align: 'center' }
+                ,{field:'email', title:'邮箱', align: 'center' }
+                ,{field:'phone', title:'电话', align: 'center' }
+                ,{field:'sex', title:'性别', align: 'center',templet:function(d){if(d.sex=='男') return "<span >男</span>"; if(d.sex=='女') return "<span style='color: #F581B1;'>女</span>"; } }
+                ,{field:'age', title:'年龄' , align: 'center'}
+                ,{field:'status', title:'状态', align: 'center',templet:function(d){if(d.status=='1') return "<span >可用</span>"; if(d.status=='2') return "<span style='color: #ff0000;'>不可用</span>"; }}
+                ,{field:'createtime', title:'创建时间' ,templet: '<div>{{layui.util.toDateString(d.createtime, "yyyy-MM-dd HH:mm:ss")}}</div>'}
+                ,{field:'updatetime', title:'更新时间' ,templet: '<div>{{layui.util.toDateString(d.updatetime, "yyyy-MM-dd HH:mm:ss")}}</div>'}
+                ,{field:'lastlogintime', title:'最后登录时间' ,templet: '<div>{{layui.util.toDateString(d.lastlogintime, "yyyy-MM-dd HH:mm:ss")}}</div>'}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:200}
+            ]
+            ]
+        });
+
+        //头工具栏事件
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch(obj.event){
+                case 'getCheckData':
+                    var data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                    break;
+                case 'getCheckLength':
+                    var data = checkStatus.data;
+                    layer.msg('选中了：'+ data.length + ' 个');
+                    break;
+                case 'isAll':
+                    layer.msg(checkStatus.isAll ? '全选': '未全选');
+                    break;
+                case 'isRe':
+                    window.location.reload();
+                    break;
+                //自定义头工具栏右侧图标 - 提示
+                case 'LAYTABLE_TIPS':
+                    layer.alert('这是工具栏右侧自定义的一个图标按钮');
+                    break;
+                case 'isAdd':
+                    layer.open({
+                        type : 2,
+                        tile : '添加用户',
+                        area : ['500px', '500px'],
+                        content : '/user/add'
+                    });
+                    break;
+            };
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+            //console.log(obj)
+            if(obj.event === 'del'){
+                layer.confirm('真的删除此用户么？', function(index){
+                    $.ajax({
+                        url:"/user/delete",
+                        data:{id:data.id},
+                        type:"post",
+                        dataType:"text",
+                        success:function () {
+                            obj.del();
+                            layer.close(index);
+                            window.location.reload();
+                        }
+                    });
+                });
+            }else if(obj.event === 'edit'){
+                layer.open({
+                    type : 2,
+                    tile : '授权角色',
+                    area : ['400px', '400px'],
+                    content : '/userRole.jsp?'+data.id
+                });
+            }else if(obj.event == 'update'){
+                layer.open({
+                    type : 2,
+                    tile : '修改用户信息',
+                    area : ['500px', '500px'],
+                    content : '/user/edit?id='+data.id
+                });
+            }
+        });
+
+    });
+</script>
+</body>
+</html>
