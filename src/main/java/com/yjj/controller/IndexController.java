@@ -84,13 +84,13 @@ public class IndexController {
     }
 
     /**
-     * 进入用户页面
+     * 进入角色页面
      * @return
      */
     @RequestMapping("role/list")
     @RequiresPermissions("role:select")
     public String roleList(){
-        System.out.println("IndexController.list");
+        System.out.println("IndexController.roleList");
         return "roleList";
     }
 }

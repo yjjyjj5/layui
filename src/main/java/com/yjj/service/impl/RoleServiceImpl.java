@@ -24,5 +24,15 @@ public class RoleServiceImpl implements RoleService {
         return roleMapper.queryRolesByUserId(uid);
     }
 
+    @Override
+    public List<Role> list() {
+        return roleMapper.list();
+    }
+
+    @Override
+    public List<Role> listPage(Integer page, Integer limit) {
+        return roleMapper.listPage(page,limit);
+    }
+
 
 }
