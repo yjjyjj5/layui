@@ -51,7 +51,7 @@
                 ,{field:'id', title:'ID', align: 'center', width:50}
                 ,{field:'name', title:'角色名称', align: 'center' }
                 ,{field:'description', title:'角色描述', align: 'center' }
-                ,{field:'status', title:'状态', align: 'center',templet:function(d){if(d.status=='1') return "<span >可用</span>"; if(d.status=='2') return "<span style='color: #ff0000;'>不可用</span>"; }}
+                ,{field:'status', title:'状态', align: 'center',templet:function(d){if(d.status=='1') return "<span class='layui-badge layui-bg-gray'>可用</span>"; if(d.status=='2') return "<span  class='layui-badge layui-bg-red'>不可用</span>"; }}
                 ,{field:'createtime', title:'创建时间' ,templet: '<div>{{layui.util.toDateString(d.createtime, "yyyy-MM-dd HH:mm:ss")}}</div>'}
                 ,{field:'updatetime', title:'更新时间' ,templet: '<div>{{layui.util.toDateString(d.updatetime, "yyyy-MM-dd HH:mm:ss")}}</div>'}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:200}
