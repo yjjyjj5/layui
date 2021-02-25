@@ -35,4 +35,25 @@ public interface RoleMapper {
      * @return
      */
     public int insert(Role role);
+
+    /**
+     * 根据ID进行删除
+     * @param id
+     * @return
+     */
+    public int delete(Integer id);
+
+    /**
+     * 根据ID查询
+     * @param id
+     * @return
+     */
+    public Role selectById(Integer id);
+
+    /**
+     * 根据ID进行修改
+     * @param role
+     * @return
+     */
+    public int update(Role role);
 }

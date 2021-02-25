@@ -39,5 +39,20 @@ public class RoleServiceImpl implements RoleService {
         return roleMapper.insert(role);
     }
 
+    @Override
+    public int delete(Integer id) {
+        return roleMapper.delete(id);
+    }
+
+    @Override
+    public Role selectById(Integer id) {
+        return roleMapper.selectById(id);
+    }
+
+    @Override
+    public int update(Role role) {
+        return roleMapper.update(role);
+    }
+
 
 }

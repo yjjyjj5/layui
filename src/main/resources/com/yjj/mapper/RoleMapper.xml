@@ -23,4 +23,24 @@
         insert into role(name,description,status,createtime,updatetime)
         values(#{name},#{description},#{status},now(),now() )
     </insert>
+
+    <delete id="delete">
+        delete from role where id=#{id}
+    </delete>
+
+    <select id="selectById" resultType="com.yjj.entity.Role">
+        select * from role where id=#{rid}
+    </select>
+
+    <update id="update">
+        update role
+        <set>
+            <if test="name != null">name=#{name},</if>
+            <if test="description != null">description=#{description},</if>
+            <if test="status != null">status=#{status},</if>
+            <if test="createtime != null">createtime=#{createtime},</if>
+            <if test="updatetime != null">updatetime=#{updatetime},</if>
+        </set>
+        where id=#{id}
+    </update>
 </mapper>

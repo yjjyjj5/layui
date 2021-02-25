@@ -47,12 +47,58 @@ public class RoleController {
         return map;
     }
 
+    /**
+     * 添加角色
+     * @param role
+     * @return
+     */
     @RequestMapping(value = "insert",method = RequestMethod.POST)
     @RequiresPermissions("role:insert")
     @ResponseBody
     public String insert(Role role){
         System.out.println("RoleController.insert");
         roleService.insert(role);
+        return "success";
+    }
+
+    /**
+     * 根据ID进行删除
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "delete",method = RequestMethod.POST)
+    @RequiresPermissions("role:delete")
+    @ResponseBody
+    public String delete(Integer id){
+        System.out.println("RoleController.delete");
+        roleService.delete(id);
+        return "success";
+    }
+
+    /**
+     * 根据ID进行用户查询
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "selectById",method = RequestMethod.POST)
+    @RequiresPermissions("role:update")
+    @ResponseBody
+    public Role selectById(Integer id){
+        System.out.println("RoleController.selectById");
+        return roleService.selectById(id);
+    }
+
+    /**
+     * 根据ID进行修改
+     * @param role
+     * @return
+     */
+    @RequestMapping(value = "update",method = RequestMethod.POST)
+    @RequiresPermissions("role:update")
+    @ResponseBody
+    public String update(Role role){
+        System.out.println("UserController.update");
+        roleService.update(role);
         return "success";
     }
 }

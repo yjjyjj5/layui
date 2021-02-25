@@ -103,4 +103,19 @@ public class IndexController {
         System.out.println("IndexController.roleInsert");
         return "roleInsert";
     }
+    /**
+     * 进入编辑角色页面
+     * 同时传入一个角色的id
+     * @param id
+     * @param model
+     * @return
+     */
+    @RequestMapping("role/edit")
+    @RequiresPermissions("role:update")
+    public String roleEdit(Integer id, Model model){
+        System.out.println("IndexController.roleEdit");
+        System.out.println(id);
+        model.addAttribute("id",id);
+        return "roleEdit";
+    }
 }
