@@ -56,7 +56,7 @@
                 ,{field:'password', title:'密码', align: 'center' }
                 ,{field:'email', title:'邮箱', align: 'center' }
                 ,{field:'phone', title:'电话', align: 'center' }
-                ,{field:'sex', title:'性别', align: 'center',templet:function(d){if(d.sex=='男') return "<span >男</span>"; if(d.sex=='女') return "<span style='color: #F581B1;'>女</span>"; } }
+                ,{field:'sex', title:'性别', align: 'center',templet:function(d){if(d.sex=='男') return "<span class='layui-badge layui-bg-gray'>男</span>"; if(d.sex=='女') return "<span class='layui-badge layui-bg-red'>女</span>"; } }
                 ,{field:'age', title:'年龄' , align: 'center'}
                 ,{field:'status', title:'状态', align: 'center',templet:function(d){if(d.status=='1') return "<span class='layui-badge layui-bg-gray'>可用</span>"; if(d.status=='2') return "<span  class='layui-badge layui-bg-red'>不可用</span>"; }}
                 ,{field:'createtime', title:'创建时间' ,templet: '<div>{{layui.util.toDateString(d.createtime, "yyyy-MM-dd HH:mm:ss")}}</div>'}
