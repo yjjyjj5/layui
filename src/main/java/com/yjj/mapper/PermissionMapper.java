@@ -24,4 +24,18 @@ public interface PermissionMapper {
 
     public int batchInsertPermission(Map map);
 
+    /**
+     * 查询全部
+     * @return
+     */
+    public List<Permission> list();
+
+    /**
+     * 分页查询
+     * @param page
+     * @param limit
+     * @return
+     */
+    public List<Permission> listPage(Integer page,Integer limit);
+
 }

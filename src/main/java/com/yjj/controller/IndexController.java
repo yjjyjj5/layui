@@ -55,7 +55,6 @@ public class IndexController {
         System.out.println("IndexController.list");
         return "userList";
     }
-
     /**
      * 进入添加用户页面
      * @return
@@ -66,7 +65,6 @@ public class IndexController {
         System.out.println("IndexController.userInsert");
         return "userInsert";
     }
-
     /**
      * 进入编辑用户页面
      * 同时传入一个用户的id
@@ -117,5 +115,41 @@ public class IndexController {
         System.out.println(id);
         model.addAttribute("id",id);
         return "roleEdit";
+    }
+
+    /**
+     * 进入权限页面
+     * @return
+     */
+    @RequestMapping("permission/list")
+    @RequiresPermissions("permission:select")
+    public String permissionList(){
+        System.out.println("IndexController.permissionList");
+        return "permissionList";
+    }
+    /**
+     * 进入添加权限页面
+     * @return
+     */
+    @RequestMapping("permission/add")
+    @RequiresPermissions("permission:insert")
+    public String permissionInsert(){
+        System.out.println("IndexController.permissionInsert");
+        return "permissionInsert";
+    }
+    /**
+     * 进入编辑权限页面
+     * 同时传入一个权限的id
+     * @param id
+     * @param model
+     * @return
+     */
+    @RequestMapping("permission/edit")
+    @RequiresPermissions("permission:update")
+    public String permissionEdit(Integer id, Model model){
+        System.out.println("IndexController.permissionEdit");
+        System.out.println(id);
+        model.addAttribute("id",id);
+        return "permissionEdit";
     }
 }

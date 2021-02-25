@@ -42,4 +42,15 @@
             (null,#{rid},#{pid})
         </foreach>
     </insert>
+
+    <select id="list" resultType="com.yjj.entity.Permission">
+        select *
+        from permission
+    </select>
+
+    <select id="listPage" resultType="com.yjj.entity.Permission">
+        select *
+        from permission
+        limit #{page} , #{limit}
+    </select>
 </mapper>

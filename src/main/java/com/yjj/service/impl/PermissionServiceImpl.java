@@ -51,6 +51,15 @@ public class PermissionServiceImpl implements PermissionService {
         return permissionMapper.batchInsertPermission(map);
     }
 
+    @Override
+    public List<Permission> list() {
+        return permissionMapper.list();
+    }
+
+    @Override
+    public List<Permission> listPage(Integer page, Integer limit) {
+        return permissionMapper.listPage(page,limit);
+    }
 
 
 }
