@@ -53,4 +53,16 @@
         from permission
         limit #{page} , #{limit}
     </select>
+
+    <delete id="delete">
+        delete from permission where id=#{id}
+    </delete>
+
+    <select id="selectByType" resultType="com.yjj.entity.Permission">
+        select * from permission where type=#{type}
+    </select>
+
+    <select id="selectById" resultType="com.yjj.entity.Permission">
+        select * from permission where id=#{id}
+    </select>
 </mapper>

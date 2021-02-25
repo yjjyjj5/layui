@@ -34,4 +34,25 @@ public interface PermissionService {
      * @return
      */
     public List<Permission> listPage(Integer page,Integer limit);
+
+    /**
+     * 根据ID进行删除
+     * @param id
+     * @return
+     */
+    public int delete(Integer id);
+
+    /**
+     * 根据类型查询
+     * @param type
+     * @return
+     */
+    public List<Permission> selectByType(Integer type);
+
+    /**
+     * 根据ID查询
+     * @param id
+     * @return
+     */
+    public Permission selectById(Integer id);
 }

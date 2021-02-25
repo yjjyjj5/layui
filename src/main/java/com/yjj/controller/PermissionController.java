@@ -1,5 +1,6 @@
 package com.yjj.controller;
 
+import com.yjj.entity.Permission;
 import com.yjj.service.PermissionService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,5 +44,31 @@ public class PermissionController {
         map.put("msg","success");
         map.put("count",permissionService.list().size());
         return map;
+    }
+
+    /**
+     * 根据类型查询id和name
+     * @param type
+     * @return
+     */
+    @RequestMapping(value = "selectByType",method = RequestMethod.POST)
+    @RequiresPermissions("permission:insert")
+    @ResponseBody
+    public List<Permission> selectBytype(Integer type){
+        System.out.println("PermissionController.selectBytype");
+        return permissionService.selectByType(type);
+    }
+
+    /**
+     * 根据ID查询
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "selectById",method = RequestMethod.POST)
+    @RequiresPermissions("permission:insert")
+    @ResponseBody
+    public Permission selectById(Integer id){
+        System.out.println("PermissionController.selectById");
+        return permissionService.selectById(id);
     }
 }

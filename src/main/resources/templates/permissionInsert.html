@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>添加权限</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+<!--    <script th:src="@{/layui/layui.all.js}"></script>-->
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/jquery-3.2.1.js}"></script>
+</head>
+<body>
+<form  method="post" class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">权限名称</label>
+        <div class="layui-input-inline">
+            <!-- 加上readonly只能选择 -->
+            <input type="text" name="name" id="name" lay-verify="required|title" autocomplete="off" placeholder="请输入权限名称" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">权限描述</label>
+        <div class="layui-input-inline">
+            <!-- 加上readonly只能选择 -->
+            <input type="text" name="description" id="description" lay-verify="required|title" autocomplete="off" placeholder="请输入权限描述" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-block">
+            <input type="radio" name="status" value="1" title="可用" checked="">
+            <input type="radio" name="status" value="2" title="不可用">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">类型</label>
+        <div class="layui-input-block">
+            <input type="radio" name="type" value="0" title="目录" checked="" lay-filter="test1">
+            <input type="radio" name="type" value="1" title="菜单" lay-filter="test1">
+            <input type="radio" name="type" value="2" title="按钮" lay-filter="test1">
+        </div>
+    </div>
+    <div class="layui-form-item" id="type1" style="display: none">
+        <label class="layui-form-label">权限访问路径1</label>
+        <div class="layui-input-inline">
+            <!-- 加上readonly只能选择 -->
+            <input type="text" name="url1" id="url1" lay-verify="title" placeholder="请输入权限访问路径" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item" id="type2" style="display: none">
+        <label class="layui-form-label">权限访问路径2</label>
+        <div class="layui-input-inline">
+            <!-- 加上readonly只能选择 -->
+            <input type="text" readonly name="url2" id="url2" lay-verify="title" placeholder="请选择父级权限ID" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item" id="type3" style="display: none">
+        <label class="layui-form-label">权限标识2</label>
+        <div class="layui-input-inline">
+            <!-- 加上readonly只能选择 -->
+            <input type="text" name="perms2" id="perms2" lay-verify="title" placeholder="请输入权限标识" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item" id="type4" style="display: none">
+        <label class="layui-form-label">父级权限ID1</label>
+        <div class="layui-input-inline">
+            <select id="parentid1" name="parentid1" lay-search="" lay-filter="parentid">
+                <option value="">---请选择父级ID---</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item" id="type5" style="display: none">
+        <label class="layui-form-label">父级权限ID2</label>
+        <div class="layui-input-inline">
+            <select id="parentid2" name="parentid2" lay-search="" lay-filter="parentid1">
+                <option value="">---请选择父级ID---</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <shiro:hasPermission name="permission:insert">
+                <button type="button" id="button" class="layui-btn layui-btn-normal layui-btn-radius" lay-submit="" lay-filter="demo1">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-normal layui-btn-radius">重置</button>
+                <button type="button" id="close" class="layui-btn layui-btn-normal layui-btn-radius">退出</button>
+            </shiro:hasPermission>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,laydate = layui.laydate;
+        form.on("radio(test1)", function (data) {
+            var type = data.value;
+            if(type==0){
+                $("#type1").css('display', 'none');
+                $("#type2").css('display', 'none');
+                $("#type3").css('display', 'none');
+                $("#type4").css('display', 'none');
+                $("#type5").css('display', 'none');
+            }else if(type ==1){
+                $("#type1").css('display', 'block');
+                $("#type2").css('display', 'none');
+                $("#type3").css('display', 'none');
+                $("#type4").css('display', 'block');
+                $("#type5").css('display', 'none');
+            }else{
+                $("#type1").css('display', 'none');
+                $("#type2").css('display', 'block');
+                $("#type3").css('display', 'block');
+                $("#type4").css('display', 'none');
+                $("#type5").css('display', 'block');
+            }
+        });
+        //下拉框
+        $.post("/permission/selectByType",{type:0},function(msg){
+            var str = "";
+            $.each(msg,function(index){
+                str += "<option value='" + msg[index].id + "'>" + msg[index].name + "</option>";
+            });
+            $("#parentid1").append(str);
+            form.render();
+        });
+        $.post("/permission/selectByType",{type:1},function(msg){
+            var str1 = "";
+            $.each(msg,function(index){
+                str1 += "<option value='" + msg[index].id + "'>" + msg[index].name + "</option>";
+            });
+            $("#parentid2").append(str1);
+            form.render();
+        });
+        form.on('select(parentid1)', function(data){
+            $.post("/permission/selectById",{id:$("#parentid2").val()},function(msg){
+                $("#url2").val(msg.url);
+            });
+            form.render();
+        });
+        //退出
+        $("#close").click(function(){
+            //当你在iframe页面关闭自身时获得当前弹出框的index索引
+            var index = parent.layer.getFrameIndex(window.name);
+            // 关闭弹出层
+            parent.layer.close(index);
+        });
+        //编辑
+        $("#button").click(function(){
+            var name = $("#name").val();
+            var description = $("#description").val();
+            var status = $("[name='status']:checked").val();
+            var type = $("[name='type']:checked").val();//类型
+            var url1 = $("#url1").val();//菜单的 类型为1
+            var url2 = $("#url2").val();//按钮的 类型为2
+            var perms2 = $("#perms2").val();// 类型为2
+            var parentid1=$("#parentid1").val();//菜单的 类型为1
+            var parentid2=$("#parentid2").val();//按钮的 类型为2
+            //进行判断所有都不为空时可以添加
+            if(type==0){
+                alert(name+"---"+description+"---"+type+"---"+status);
+            }else if(type==1){
+                alert(name+"---"+description+"---"+type+"---"+status+"---"+parentid1+"---"+url1);
+            }else{
+                alert(name+"---"+description+"---"+type+"---"+status+"---"+parentid2+"---"+url2+"---"+perms2);
+            }
+        });
+    });
+</script>
+</body>
+</html>

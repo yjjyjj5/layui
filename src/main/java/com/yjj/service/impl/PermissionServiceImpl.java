@@ -61,5 +61,20 @@ public class PermissionServiceImpl implements PermissionService {
         return permissionMapper.listPage(page,limit);
     }
 
+    @Override
+    public int delete(Integer id) {
+        return permissionMapper.delete(id);
+    }
+
+    @Override
+    public List<Permission> selectByType(Integer type) {
+        return permissionMapper.selectByType(type);
+    }
+
+    @Override
+    public Permission selectById(Integer id) {
+        return permissionMapper.selectById(id);
+    }
+
 
 }
