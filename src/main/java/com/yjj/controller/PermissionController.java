@@ -81,13 +81,41 @@ public class PermissionController {
     @RequiresPermissions("permission:insert")
     @ResponseBody
     public String insert(Permission permission){
-        System.out.println(permission.toString());
+        System.out.println("PermissionController.insert");
         if(permission.getType()==0){
             permissionService.insert(permission);
         }else if(permission.getType()==1){
             permissionService.insert(permission);
         }else{
             permissionService.insert(permission);
+        }
+        return "success";
+    }
+
+    /**
+     * 删除权限
+     * 如果是目录，则需要把目录、菜单和按钮删除
+     * 如果是菜单，则需要把菜单和按钮删除
+     * 如果是按钮，则需要把按钮删除
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "delete",method = RequestMethod.POST)
+    @RequiresPermissions("permission:delete")
+    @ResponseBody
+    public String delete(Integer id){
+        System.out.println("PermissionController.delete");
+        Permission p = permissionService.selectById(id);
+        if(p.getType()==0){
+            Permission p1 = permissionService.selectByParentid(p.getId());
+            permissionService.deleteParentid(p1.getId());
+            permissionService.delete(p1.getId());
+            permissionService.delete(id);
+        }else if (p.getType()==1){
+            permissionService.deleteParentid(id);
+            permissionService.delete(id);
+        }else{
+            permissionService.delete(id);
         }
         return "success";
     }

@@ -43,6 +43,20 @@ public interface PermissionService {
     public int delete(Integer id);
 
     /**
+     * 根据parentid删除
+     * @param parentid
+     * @return
+     */
+    public int deleteParentid(Integer parentid);
+
+    /**
+     * 根据parentid查询
+     * @param parentid
+     * @return
+     */
+    public Permission selectByParentid(Integer parentid);
+
+    /**
      * 根据类型查询
      * @param type
      * @return

@@ -67,6 +67,16 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
+    public int deleteParentid(Integer parentid) {
+        return permissionMapper.deleteParentid(parentid);
+    }
+
+    @Override
+    public Permission selectByParentid(Integer parentid) {
+        return permissionMapper.selectByParentid(parentid);
+    }
+
+    @Override
     public List<Permission> selectByType(Integer type) {
         return permissionMapper.selectByType(type);
     }

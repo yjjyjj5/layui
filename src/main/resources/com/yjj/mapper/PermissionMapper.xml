@@ -57,6 +57,12 @@
     <delete id="delete">
         delete from permission where id=#{id}
     </delete>
+    <delete id="deleteParentid">
+        delete from permission where parentid=#{parentid}
+    </delete>
+    <select id="selectByParentid" resultType="com.yjj.entity.Permission">
+        select * from permission where parentid=#{parentid}
+    </select>
 
     <select id="selectByType" resultType="com.yjj.entity.Permission">
         select * from permission where type=#{type}
