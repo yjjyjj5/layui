@@ -65,4 +65,30 @@
     <select id="selectById" resultType="com.yjj.entity.Permission">
         select * from permission where id=#{id}
     </select>
+
+    <insert id="insert">
+        insert into permission
+        (
+        <if test="name != null">name,</if>
+        <if test="description != null">description</if>
+        <if test="url != null">,url</if>
+        <if test="perms != null">,perms</if>
+        <if test="parentid != null">,parentid</if>
+        <if test="type != null">,type</if>
+        <if test="status != null">,status</if>
+        ,createtime,updatetime
+        )
+        values
+        (
+        <if test="name != null">#{name},</if>
+        <if test="description != null">#{description}</if>
+        <if test="url != null">,#{url}</if>
+        <if test="perms != null">,#{perms}</if>
+        <if test="parentid != null">,#{parentid}</if>
+        <if test="type != null">,#{type}</if>
+        <if test="status != null">,#{status}</if>
+        ,now()
+        ,now()
+        )
+    </insert>
 </mapper>

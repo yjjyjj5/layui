@@ -71,4 +71,24 @@ public class PermissionController {
         System.out.println("PermissionController.selectById");
         return permissionService.selectById(id);
     }
+
+    /**
+     * 权限添加
+     * @param permission
+     * @return
+     */
+    @RequestMapping("insert")
+    @RequiresPermissions("permission:insert")
+    @ResponseBody
+    public String insert(Permission permission){
+        System.out.println(permission.toString());
+        if(permission.getType()==0){
+            permissionService.insert(permission);
+        }else if(permission.getType()==1){
+            permissionService.insert(permission);
+        }else{
+            permissionService.insert(permission);
+        }
+        return "success";
+    }
 }

@@ -76,5 +76,10 @@ public class PermissionServiceImpl implements PermissionService {
         return permissionMapper.selectById(id);
     }
 
+    @Override
+    public int insert(Permission permission) {
+        return permissionMapper.insert(permission);
+    }
+
 
 }

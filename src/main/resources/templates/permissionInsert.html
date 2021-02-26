@@ -157,11 +157,53 @@
             var parentid2=$("#parentid2").val();//按钮的 类型为2
             //进行判断所有都不为空时可以添加
             if(type==0){
-                alert(name+"---"+description+"---"+type+"---"+status);
+                $.ajax({
+                    url:"/permission/insert",
+                    data:{name:name,description:description,type:type,status:status},
+                    type:"post",
+                    dataType:"text",
+                    success:function (msg) {
+                        alert(msg);
+                        //当你在iframe页面关闭自身时获得当前弹出框的index索引
+                        var index = parent.layer.getFrameIndex(window.name);
+                        // 关闭弹出层
+                        parent.layer.close(index);
+                        // 刷新父页面
+                        window.parent.location.reload();
+                    }
+                });
             }else if(type==1){
-                alert(name+"---"+description+"---"+type+"---"+status+"---"+parentid1+"---"+url1);
+                $.ajax({
+                    url:"/permission/insert",
+                    data:{name:name,description:description,type:type,status:status,parentid:parentid1,url:url1},
+                    type:"post",
+                    dataType:"text",
+                    success:function (msg) {
+                        alert(msg);
+                        //当你在iframe页面关闭自身时获得当前弹出框的index索引
+                        var index = parent.layer.getFrameIndex(window.name);
+                        // 关闭弹出层
+                        parent.layer.close(index);
+                        // 刷新父页面
+                        window.parent.location.reload();
+                    }
+                });
             }else{
-                alert(name+"---"+description+"---"+type+"---"+status+"---"+parentid2+"---"+url2+"---"+perms2);
+                $.ajax({
+                    url:"/permission/insert",
+                    data:{name:name,description:description,type:type,status:status,parentid:parentid2,url:url2,perms:perms2},
+                    type:"post",
+                    dataType:"text",
+                    success:function (msg) {
+                        alert(msg);
+                        //当你在iframe页面关闭自身时获得当前弹出框的index索引
+                        var index = parent.layer.getFrameIndex(window.name);
+                        // 关闭弹出层
+                        parent.layer.close(index);
+                        // 刷新父页面
+                        window.parent.location.reload();
+                    }
+                });
             }
         });
     });

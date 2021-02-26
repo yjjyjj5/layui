@@ -59,4 +59,11 @@ public interface PermissionMapper {
      */
     public Permission selectById(Integer id);
 
+    /**
+     * 添加权限
+     * @param permission
+     * @return
+     */
+    public int insert(Permission permission);
+
 }
