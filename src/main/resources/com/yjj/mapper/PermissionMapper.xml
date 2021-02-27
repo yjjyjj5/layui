@@ -97,4 +97,18 @@
         ,now()
         )
     </insert>
+
+    <update id="update">
+        update permission
+        <set>
+            <if test="name != null">name=#{name},</if>
+            <if test="description != null">description=#{description},</if>
+            <if test="url != null">url=#{url},</if>
+            <if test="perms != null">perms=#{perms},</if>
+            <if test="parentid != null">parentid=#{parentid},</if>
+            <if test="type != null">type=#{type},</if>
+            <if test="status != null">status=#{status},</if>
+        </set>
+        where id=#{id}
+    </update>
 </mapper>

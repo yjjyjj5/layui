@@ -91,5 +91,10 @@ public class PermissionServiceImpl implements PermissionService {
         return permissionMapper.insert(permission);
     }
 
+    @Override
+    public int update(Permission permission) {
+        return permissionMapper.update(permission);
+    }
+
 
 }

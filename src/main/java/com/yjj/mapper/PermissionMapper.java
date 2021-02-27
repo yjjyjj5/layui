@@ -80,4 +80,11 @@ public interface PermissionMapper {
      */
     public int insert(Permission permission);
 
+    /**
+     * 修改权限
+     * @param permission
+     * @return
+     */
+    public int update(Permission permission);
+
 }

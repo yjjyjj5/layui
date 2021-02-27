@@ -107,9 +107,11 @@ public class PermissionController {
         System.out.println("PermissionController.delete");
         Permission p = permissionService.selectById(id);
         if(p.getType()==0){
-            Permission p1 = permissionService.selectByParentid(p.getId());
-            permissionService.deleteParentid(p1.getId());
-            permissionService.delete(p1.getId());
+            if(p.getParentid()!=null){
+                Permission p1 = permissionService.selectByParentid(p.getId());
+                permissionService.deleteParentid(p1.getId());
+                permissionService.delete(p1.getId());
+            }
             permissionService.delete(id);
         }else if (p.getType()==1){
             permissionService.deleteParentid(id);
@@ -117,6 +119,19 @@ public class PermissionController {
         }else{
             permissionService.delete(id);
         }
+        return "success";
+    }
+
+    /**
+     * 修改权限
+     * @param permission
+     * @return
+     */
+    @RequestMapping(value = "update",method = RequestMethod.POST)
+    @RequiresPermissions("permission:update")
+    @ResponseBody
+    public String update(Permission permission){
+        permissionService.update(permission);
         return "success";
     }
 }
