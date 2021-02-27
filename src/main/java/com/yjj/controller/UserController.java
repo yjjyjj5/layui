@@ -1,6 +1,9 @@
 package com.yjj.controller;
 
+import com.yjj.entity.Dtree;
+import com.yjj.entity.Role;
 import com.yjj.entity.User;
+import com.yjj.service.RoleService;
 import com.yjj.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -16,7 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,6 +36,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
     Map<String, Object> map = new HashMap<String, Object>();
 
     /**
@@ -131,12 +138,46 @@ public class UserController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "delete")
+    @RequestMapping(value = "delete",method = RequestMethod.POST)
     @RequiresPermissions("user:delete")
     @ResponseBody
     public String delete(Integer id){
         System.out.println("UserController.delete");
         userService.delete(id);
         return "success";
+    }
+
+
+    @RequestMapping(value = "userRole",method = RequestMethod.GET)
+    @RequiresPermissions("user:update")
+    @ResponseBody
+    public Map userRole(Integer id){
+        System.out.println("UserController.userRole");
+        //查所有权限
+        List<Role> roleList= roleService.list();
+        List list=new ArrayList();
+        for (Role p:roleList){
+            Dtree d=new Dtree(p.getId(),p.getName(),"0",0);
+            list.add(d);
+        }
+        Map map=new HashMap();
+        Map map2=new HashMap();
+        //查当前操作的角色拥有的权限
+        List<User> userList=userService.selectUserRole(id);
+        if(userList.size()!=0){
+            StringBuffer str=new StringBuffer();
+            for (int i=0;i<userList.size();i++){
+                str.append(userList.get(i).getId()+",");
+            }
+            String st=str.substring(0,str.lastIndexOf(","));
+            System.out.println(st);
+            map2.put("count",st);
+        }
+        map.put("status",map2);
+        map2.put("code",200);
+        map2.put("message","操作成功");
+        map.put("data",list);
+        System.out.println(map.toString());
+        return map;
     }
 }

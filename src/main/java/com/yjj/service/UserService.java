@@ -67,4 +67,11 @@ public interface UserService {
      * @return
      */
     public int delete(Integer id);
+
+    /**
+     * 根据ID查询用户拥有的权限
+     * @param id
+     * @return
+     */
+    public List<User> selectUserRole(Integer id);
 }

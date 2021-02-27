@@ -57,4 +57,9 @@
     <delete id="delete">
         delete from user where id=#{id}
     </delete>
+
+    <select id="selectUserRole" resultType="com.yjj.entity.User">
+        select r.* from user u ,userrole ur,role r
+        where u.id=ur.userid and ur.roleid=r.id and u.id=#{id}
+    </select>
 </mapper>

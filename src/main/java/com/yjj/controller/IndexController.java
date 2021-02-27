@@ -80,6 +80,20 @@ public class IndexController {
         model.addAttribute("id",id);
         return "userEdit";
     }
+    /**
+     * 进入用户授予角色页面
+     * @param id
+     * @param model
+     * @return
+     */
+    @RequestMapping("user/userRole")
+    @RequiresPermissions("user:update")
+    public String userRole(Integer id, Model model){
+        System.out.println("IndexController.userRole");
+        System.out.println(id);
+        model.addAttribute("id",id);
+        return "userRole";
+    }
 
     /**
      * 进入角色页面

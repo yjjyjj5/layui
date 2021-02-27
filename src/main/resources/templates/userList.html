@@ -23,9 +23,9 @@
     <shiro:hasPermission name="user:update">
         <a class="layui-btn layui-btn-normal layui-btn-xs  layui-btn-radius" lay-event="update">修改</a>
     </shiro:hasPermission>
-<!--    <shiro:hasPermission name="user:update">-->
-<!--        <a class="layui-btn layui-btn-normal layui-btn-xs layui-btn-radius" lay-event="edit">授权角色</a>-->
-<!--    </shiro:hasPermission>-->
+    <shiro:hasPermission name="user:update">
+        <a class="layui-btn layui-btn-normal layui-btn-xs layui-btn-radius" lay-event="edit">授权角色</a>
+    </shiro:hasPermission>
     <shiro:hasPermission name="user:delete">
         <a class="layui-btn layui-btn-danger layui-btn-xs layui-btn-radius" lay-event="del">删除</a>
     </shiro:hasPermission>
@@ -123,7 +123,7 @@
                     type : 2,
                     tile : '授权角色',
                     area : ['400px', '400px'],
-                    content : '/userRole.jsp?'+data.id
+                    content : '/user/userRole?id='+data.id
                 });
             }else if(obj.event == 'update'){
                 layer.open({
