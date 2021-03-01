@@ -54,7 +54,19 @@
                 <li class="layui-this">欢迎页</li>
             </ul>
             <div class="layui-tab-content">
-                <div class="layui-tab-item layui-show">欢迎使用本系统 [[${session.permissionList}]]</div>
+                <div class="layui-tab-item layui-show" style="padding:20px;overflow:hidden; color:red; ">
+                    <p style="font-size: 25px; line-height: 30px; height: 30px;">欢迎使用本系统</p>
+                    <p>开发人员：yjj</p>
+                    <p>开发时间：2021.02.23-2021.03.1</p>
+
+                    <hr />
+                    <p>权限访问路径：/xx/xxxx</p>
+                    <p>权限标识：xx:xxxx</p>
+                    <p>shiro方法在：shiro包</p>
+                    <p>使用技术：springboot、mybatis、shiro、thymeleaf、layui、dtree</p>
+                    <p>页面跳转路径写在：IndexController</p>
+                    <p>异常捕获在：util包的GlobalExceptionResolver</p>
+                </div>
             </div>
         </div>
     </div>
