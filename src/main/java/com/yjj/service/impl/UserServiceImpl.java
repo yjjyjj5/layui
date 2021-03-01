@@ -83,4 +83,14 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectUserRole(id);
     }
 
+    @Override
+    public int deleteUserRoleUserid(Integer id) {
+        return userMapper.deleteUserRoleUserid(id);
+    }
+
+    @Override
+    public int batchInsertPermission(Map map) {
+        return userMapper.batchInsertPermission(map);
+    }
+
 }

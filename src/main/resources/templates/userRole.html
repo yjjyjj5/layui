@@ -2,11 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
     <title>授予角色</title>
     <script th:src="@{/js/jquery-3.2.1.js}"></script>
     <link rel="stylesheet" th:href="@{/layui/dtree/layui/css/layui.css}">
-    <script th:src="@{/layui/dtree/layui_ext/dtree/dtree.css}"></script>
-    <script th:src="@{/layui/dtree/layui_ext/dtree/font/dtreefont.css}"></script>
+    <link rel="stylesheet" th:href="@{/layui/dtree/layui_ext/dtree/dtree.css}"></link>
+    <link rel="stylesheet" th:href="@{/layui/dtree/layui_ext/dtree/font/dtreefont.css}"></link>
     <script th:src="@{/layui/dtree/layui/layui.js}"></script>
 </head>
 <body>
@@ -24,8 +25,10 @@
         </div>
     </div>
 </form>
-<script type="text/javascript" th:inline="none">
+
+<script type="text/javascript">
     layui.extend({
+        //dtree:'${ctx}/resources/layui_ext/dist/dtree'
         dtree: '/layui/dtree/layui_ext/dtree/dtree'   // {/}的意思即代表采用自有路径，即不跟随 base 路径
     }).use(['dtree', 'layer', 'jquery'], function() {
         var dtree = layui.dtree,
@@ -34,11 +37,11 @@
         var id =  $("#id").val();
         dtree.render({
             elem: "#dataTree2",
-            url: "/user/userRole?id="+id,
+            url: "/user/userRoleS?id="+id,
             //data: {id:id},
             dataFormat: "list",  //配置data的风格为list
             checkbar: true, //开启复选框
-            method: "get", //默认为post
+            method: "post", //默认为post
             checkbar: true, //启用复选框。
             checkbarType: "all", // 默认就是all，其他的值为： no-all  p-casc   self  only
             //checkbarData: "choose",
@@ -68,7 +71,7 @@
             //alert(paramJsonArr["nodeId"].join(","));
             //alert(JSON.stringify(paramJsonArr["nodeId"].join(",")));
             if(dtree.getCheckbarNodesParam("dataTree2").length!=0){
-                $.post("/user/dispatch",{choose:paramJsonArr["nodeId"].join(","),uid:uid},function(msg){
+                $.post("/user/dispatch",{choose:paramJsonArr["nodeId"].join(","),id:id},function(msg){
                     alert("修改成功");
                     //当你在iframe页面关闭自身时获得当前弹出框的index索引
                     var index = parent.layer.getFrameIndex(window.name);

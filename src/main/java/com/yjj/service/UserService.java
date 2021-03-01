@@ -74,4 +74,18 @@ public interface UserService {
      * @return
      */
     public List<User> selectUserRole(Integer id);
+
+    /**
+     * 删除当前用户的角色
+     * @param id
+     * @return
+     */
+    public int deleteUserRoleUserid(Integer id);
+
+    /**
+     * 授予角色
+     * @param map
+     * @return
+     */
+    public int batchInsertPermission(Map map);
 }

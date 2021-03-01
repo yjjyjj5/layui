@@ -62,4 +62,19 @@
         select r.* from user u ,userrole ur,role r
         where u.id=ur.userid and ur.roleid=r.id and u.id=#{id}
     </select>
+
+    <delete id="deleteUserRoleUserid" parameterType="int">
+        delete from userrole where userid=#{id}
+    </delete>
+    <!--
+    map:
+    uid=2
+    perArr:[1,2,3,4]
+    -->
+    <insert id="batchInsertPermission" parameterType="map">
+        insert into userrole values
+        <foreach collection="perArr" item="pid" separator=",">
+            (null,#{id},#{pid})
+        </foreach>
+    </insert>
 </mapper>

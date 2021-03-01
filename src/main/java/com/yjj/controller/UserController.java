@@ -19,10 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 用户
@@ -148,11 +145,16 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "userRole",method = RequestMethod.GET)
+    /**
+     * 查询当前用户所拥有的权限
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "userRoleS",method = RequestMethod.POST)
     @RequiresPermissions("user:update")
     @ResponseBody
-    public Map userRole(Integer id){
-        System.out.println("UserController.userRole");
+    public Map userRoleS(Integer id){
+        System.out.println("UserController.userRoleS");
         //查所有权限
         List<Role> roleList= roleService.list();
         List list=new ArrayList();
@@ -179,5 +181,25 @@ public class UserController {
         map.put("data",list);
         System.out.println(map.toString());
         return map;
+    }
+
+    /**
+     * 授予新角色
+     * @param choose
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "dispatch",method = RequestMethod.POST)
+    @RequiresPermissions("role:update")
+    @ResponseBody
+    public String dispatch(Integer[] choose,Integer id){
+        System.out.println("UserController.dispatch");
+        System.out.println(Arrays.toString(choose) +"---"+id);
+        userService.deleteUserRoleUserid(id);
+        Map map=new HashMap();
+        map.put("id",id);
+        map.put("perArr",choose);
+        userService.batchInsertPermission(map);
+        return "success";
     }
 }
