@@ -1,5 +1,6 @@
 package com.yjj.shiro;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.mgt.SessionsSecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -38,7 +39,7 @@ public class ShiroConfig {
         //设置登录成功后的跳转页面
         shiroFilterFactoryBean.setSuccessUrl("/index");
         //设置未授权页面
-        shiroFilterFactoryBean.setUnauthorizedUrl("/401.jsp");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/401");
 
         //创建map集合，用来存储哪些需要拦截，哪些不拦截
         Map<String,String> filterMap=new HashMap<String,String>();
@@ -56,5 +57,10 @@ public class ShiroConfig {
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
         return shiroFilterFactoryBean;
+    }
+
+    @Bean(name = "shiroDialect")
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
     }
 }
