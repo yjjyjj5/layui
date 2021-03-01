@@ -50,7 +50,7 @@
         <label class="layui-form-label">权限访问路径2</label>
         <div class="layui-input-inline">
             <!-- 加上readonly只能选择 -->
-            <input type="text" readonly name="url2" id="url2" lay-verify="title" placeholder="请选择父级权限ID" class="layui-input">
+            <input type="text" name="url2" id="url2" lay-verify="title" placeholder="请输入权限访问路径" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item" id="type3" style="display: none">
@@ -129,12 +129,6 @@
                 str1 += "<option value='" + msg[index].id + "'>" + msg[index].name + "</option>";
             });
             $("#parentid2").append(str1);
-            form.render();
-        });
-        form.on('select(parentid1)', function(data){
-            $.post("/permission/selectById",{id:$("#parentid2").val()},function(msg){
-                $("#url2").val(msg.url);
-            });
             form.render();
         });
         //退出

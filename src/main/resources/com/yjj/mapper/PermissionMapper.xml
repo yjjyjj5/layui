@@ -28,7 +28,7 @@
     </select>
 
     <delete id="deletePermissionByRoleId" parameterType="int">
-        delete from rolepermission where roleid=#{rid}
+        delete from rolepermission where roleid=#{id}
     </delete>
 
     <!--
@@ -39,7 +39,7 @@
     <insert id="batchInsertPermission" parameterType="map">
         insert into rolepermission values
         <foreach collection="perArr" item="pid" separator=",">
-            (null,#{rid},#{pid})
+            (null,#{id},#{pid})
         </foreach>
     </insert>
 

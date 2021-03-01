@@ -37,11 +37,9 @@ public class LoginController {
         if(u!=null){
             System.out.println(u.toString());
             session.setAttribute("user",user);
-            log.info("------登录成功------");
             return "index";
         }else{
             attributes.addFlashAttribute("error","账号或密码错误");
-            log.error("------账号或密码错误------");
             return "redirect:/";
         }
     }

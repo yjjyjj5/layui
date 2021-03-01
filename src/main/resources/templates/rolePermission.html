@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>角色授权</title>
+    <script th:src="@{/js/jquery-3.2.1.js}"></script>
+    <link rel="stylesheet" th:href="@{/layui/dtree/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/layui/dtree/layui_ext/dtree/dtree.css}"></link>
+    <link rel="stylesheet" th:href="@{/layui/dtree/layui_ext/dtree/font/dtreefont.css}"></link>
+    <script th:src="@{/layui/dtree/layui/layui.js}"></script>
+</head>
+<body>
+<form   class="layui-form">
+    <input type="hidden" name="id" id="id" th:value="${id}" class="layui-input">
+    <div class="layui-form-item">
+        <ul id="dataTree2" class="dtree" data-id="0"></ul>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <shiro:hasPermission name="role:update">
+                <button type="button" class="layui-btn layui-btn-normal layui-btn-radius" id="button" >提交</button>
+                <button type="button" class="layui-btn layui-btn-normal layui-btn-radius" id="close" >退出</button>
+            </shiro:hasPermission>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    layui.extend({
+        //dtree:'${ctx}/resources/layui_ext/dist/dtree'
+        dtree: '/layui/dtree/layui_ext/dtree/dtree'   // {/}的意思即代表采用自有路径，即不跟随 base 路径
+    }).use(['dtree', 'layer', 'jquery'], function() {
+        var dtree = layui.dtree,
+            layer = layui.layer,
+            $ = layui.jquery;
+        var id =  $("#id").val();
+        dtree.render({
+            elem: "#dataTree2",
+            url: "/role/rolePermissionS?id="+id,
+            //data: {id:id},
+            dataFormat: "list",  //配置data的风格为list
+            checkbar: true, //开启复选框
+            method: "post", //默认为post
+            checkbar: true, //启用复选框。
+            checkbarType: "all", // 默认就是all，其他的值为： no-all  p-casc   self  only
+            //checkbarData: "choose",
+            done: function(res, $ul, first) {
+                dtree.chooseDataInit("dataTree2", res.status.count);
+                dtree.initAllCheck("dataTree2");
+            },
+        });
+        //var a=[];
+        //退出
+        $("#close").click(function(){
+            //当你在iframe页面关闭自身时获得当前弹出框的index索引
+            var index = parent.layer.getFrameIndex(window.name);
+            // 关闭弹出层
+            parent.layer.close(index);
+        });
+        $("#button").click(function() {
+            // var param = dtree.getCheckbarNodesParam("dataTree2");
+            // console.log(JSON.stringify(param));
+            //
+            // $.each(param, function(index) {
+            //     console.log(param[index].nodeId + "---" + param[index].context);
+            //     a.push(param[index].nodeId);
+            // });
+            //alert(a+"---"+rid);
+            var paramJsonArr = dtree.getCheckbarJsonArrParam("dataTree2");
+            //alert(paramJsonArr["nodeId"].join(","));
+            //alert(JSON.stringify(paramJsonArr["nodeId"].join(",")));
+            if(dtree.getCheckbarNodesParam("dataTree2").length!=0){
+                $.post("/role/dispatch",{choose:paramJsonArr["nodeId"].join(","),id:id},function(msg){
+                    alert("修改成功");
+                    //当你在iframe页面关闭自身时获得当前弹出框的index索引
+                    var index = parent.layer.getFrameIndex(window.name);
+                    // 关闭弹出层
+                    parent.layer.close(index);
+                    // 刷新父页面
+                    window.parent.location.reload();
+                });
+            }else{
+                alert("请至少选择一个权限");
+            }
+        });
+    });
+</script>
+</body>
+</html>

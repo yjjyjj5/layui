@@ -17,7 +17,7 @@ public interface PermissionService {
 
     public List<Permission> queryOwenPermissionByRoleId(Integer rid);
 
-    public int deletePermissionByRoleId(Integer rid);
+    public int deletePermissionByRoleId(Integer id);
 
     public int batchInsertPermission(Map map);
 

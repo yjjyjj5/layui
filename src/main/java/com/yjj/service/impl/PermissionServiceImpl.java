@@ -42,8 +42,8 @@ public class PermissionServiceImpl implements PermissionService {
 
     @CacheEvict(value = {"queryOwenPermissionByRoleId"},allEntries = true)
     @Override
-    public int deletePermissionByRoleId(Integer rid) {
-        return permissionMapper.deletePermissionByRoleId(rid);
+    public int deletePermissionByRoleId(Integer id) {
+        return permissionMapper.deletePermissionByRoleId(id);
     }
 
     @Override

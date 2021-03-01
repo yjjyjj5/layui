@@ -67,7 +67,6 @@ public class UserController {
         System.out.println("UserController.logout");
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
-        log.info("------退出登录------");
         return "redirect:/";
     }
 

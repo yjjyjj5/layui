@@ -130,6 +130,20 @@ public class IndexController {
         model.addAttribute("id",id);
         return "roleEdit";
     }
+    /**
+     * 进入角色授权页面
+     * @param id
+     * @param model
+     * @return
+     */
+    @RequestMapping("role/rolePermission")
+    @RequiresPermissions("role:update")
+    public String rolePermission(Integer id,Model model){
+        System.out.println("IndexController.rolePermission");
+        System.out.println(id);
+        model.addAttribute("id",id);
+        return "rolePermission";
+    }
 
     /**
      * 进入权限页面
